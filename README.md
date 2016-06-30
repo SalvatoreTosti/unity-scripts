@@ -1,6 +1,5 @@
 # unity-scripts
 A storage place for commonly used Unity scripts
-----
 ## EditorGridSnap.cs
 
 _Overview:_
