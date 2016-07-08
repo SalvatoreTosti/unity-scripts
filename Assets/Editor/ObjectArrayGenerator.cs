@@ -1,17 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
-
 [InitializeOnLoad]
 public class ObjectArrayGenerator : EditorWindow {
 
 	GameObject parentObject;
 	GameObject obj = null;
-	bool groupEnabled = false;
+
 	int rowLength;
 	int rowCount;
 	int objectSpacing;
 	bool generate;
+
+	bool verticalArray = false;
+	int rowHeight;
 
 	[MenuItem("Window/Object Array Generator")]
 	public static void ShowWindow(){
@@ -24,10 +26,23 @@ public class ObjectArrayGenerator : EditorWindow {
 		rowLength = EditorGUILayout.IntField ("Array Length", rowLength);
 		rowCount = EditorGUILayout.IntField ("Array Width", rowCount);
 		objectSpacing = EditorGUILayout.IntField ("Object Spacing", objectSpacing);
+		verticalArray = EditorGUILayout.BeginToggleGroup ("3D Array", verticalArray);
+			rowHeight = EditorGUILayout.IntField ("Array Height",rowHeight);
+		EditorGUILayout.EndToggleGroup ();
 
 		if (GUILayout.Button ("Instantiate")) {
 			Vector3 startLocation = new Vector3 ();
-			InstantiateRowSeries (rowLength, rowCount, objectSpacing, startLocation);
+			if (verticalArray) {
+				InstantiateRowStack (rowLength, rowCount, rowHeight, objectSpacing, startLocation);
+			} else {
+				InstantiateRowStack (rowLength, rowCount, 1, objectSpacing, startLocation);
+			}
+		}
+	}
+	void InstantiateRowStack(int length, int width, int height, int spacing, Vector3 setLocation){
+		for (int i = 0; i < height; i++) {
+			InstantiateRowSeries (length, width, spacing, setLocation);
+			setLocation = new Vector3 (setLocation.x, setLocation.y + spacing, setLocation.z);
 		}
 	}
 
