@@ -62,3 +62,24 @@ _Usage:_
 
 Attach the script to any object.
 Select parent object in the editor menu.
+
+### Utilities.cs
+
+_Overview:_
+
+Contains functions which are applicable across projects.
+
+_Usage:_
+
+Currently all functions can be called from a static context.
+
+
+### Utilites2D.cs
+
+_Overview:_
+
+Contains functions which are applicable across 2D projects.
+
+_Usage:_
+
+Currently all functions can be called from a static context.
