@@ -22,7 +22,10 @@ public class Utilities : MonoBehaviour {
 		return false;
 	}
 
-	public List<Transform> getDescendentTransforms(Transform parent){
+	public static List<Transform> getDescendentTransforms(Transform parent){
+		if (parent == null) {
+			return new List<Transform> (); //return empty list if passed null
+		}
 		List<Transform> transforms = new List<Transform> ();
 		foreach (Transform child in parent) {
 			transforms.Add (child);
@@ -32,21 +35,30 @@ public class Utilities : MonoBehaviour {
 		return transforms;
 	}
 
-	public List<Transform> getDescendentTransforms(GameObject obj){
+	public static List<Transform> getDescendentTransforms(GameObject obj){
+		if (obj == null) {
+			return new List<Transform> (); //return empty list if passed null
+		}
 		Transform parent = obj.transform;
 		return getDescendentTransforms (parent);
 	}
 
-	public List<GameObject> getDescendentObjects(Transform parent){
+	public static List<GameObject> getDescendentObjects(Transform parent){
+		if (parent == null) {
+			return new List<GameObject> (); //return empty list if passed null
+		}
 		List<Transform> transformList = getDescendentTransforms (parent);
 		List<GameObject> objectList = new List<GameObject> ();
 		foreach (Transform t in transformList) {
 			objectList.Add (t.gameObject);
-			}
+		}
 		return objectList;
 	}
 
-	public List<GameObject> getDescendentObjects(GameObject obj){
+	public static List<GameObject> getDescendentObjects(GameObject obj){
+		if (obj == null) {
+			return new List<GameObject> (); //return empty list if passed null
+		}
 		Transform parent = obj.transform;
 		return getDescendentObjects (parent);
 	}
