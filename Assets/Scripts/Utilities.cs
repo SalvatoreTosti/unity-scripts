@@ -21,5 +21,34 @@ public class Utilities : MonoBehaviour {
 		}
 		return false;
 	}
-  
+
+	private List<Transform> getDescendentTransforms(Transform parent){
+		List<Transform> transforms = new List<Transform> ();
+		foreach (Transform child in parent) {
+			transforms.Add (child);
+			List<Transform> descendents = getDescendentTransforms (child);
+			transforms.AddRange (descendents);
+		}
+		return transforms;
+	}
+
+	private List<Transform> getDescendentTransforms(GameObject obj){
+		Transform parent = obj.transform;
+		return getDescendentTransforms (parent);
+	}
+
+	private List<GameObject> getDescendentObjects(Transform parent){
+		List<Transform> transformList = getDescendentTransforms (parent);
+		List<GameObject> objectList = new List<GameObject> ();
+		foreach (Transform t in transformList) {
+			objectList.Add (t.gameObject);
+			}
+		return objectList;
+	}
+
+	private List<GameObject> getDescendentObjects(GameObject obj){
+		Transform parent = obj.transform;
+		return getDescendentObjects (parent);
+	}
+
 }
