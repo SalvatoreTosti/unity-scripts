@@ -10,3 +10,6 @@ _(only 1 Renderer object active at a time)_.
 Contains player prefab and camera.  
 Player can move forward and backward as well as rotate.
 Camera is locked behind player.
+
+### ClickEditorWindow.unitypackage
+Contains editor window which demonstrates how to capture click events from a scene.
