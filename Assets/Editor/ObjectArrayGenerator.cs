@@ -5,6 +5,7 @@ using UnityEditor;
 public class ObjectArrayGenerator : EditorWindow {
 
 	GameObject obj = null;
+	Transform spawnLocation;
 
 	int rowLength;
 	int rowCount;
@@ -20,6 +21,16 @@ public class ObjectArrayGenerator : EditorWindow {
 	private GameObject emptyParentObject;
 	string emptyParentName = "Empty Parent";
 
+	bool randomRotation = false;
+	float xRotationVariation;
+	float yRotationVariation;
+	float zRotationVariation;
+
+	bool randomScale = false;
+	float xScaleVariation;
+	float yScaleVariation;
+	float zScaleVariation;
+
 	[MenuItem("Window/Object Array Generator")]
 	public static void ShowWindow(){
 		EditorWindow.GetWindow (typeof(ObjectArrayGenerator));
@@ -28,6 +39,7 @@ public class ObjectArrayGenerator : EditorWindow {
 	void OnGUI(){
 		GUILayout.Label ("Base Settings", EditorStyles.boldLabel);
 		obj = EditorGUILayout.ObjectField ("Object", obj, typeof(GameObject), true) as GameObject;
+		spawnLocation = EditorGUILayout.ObjectField("Spawn Location", spawnLocation, typeof(Transform), true) as Transform;
 
 		rowLength = EditorGUILayout.IntField ("Array Length", rowLength);
 		rowCount = EditorGUILayout.IntField ("Array Width", rowCount);
@@ -40,7 +52,18 @@ public class ObjectArrayGenerator : EditorWindow {
 		parenting = EditorGUILayout.BeginToggleGroup ("Parenting", parenting);
 			createParent = EditorGUILayout.Toggle ("Create Empty Parent", createParent);
 			parentObject = EditorGUILayout.ObjectField ("Parent", parentObject, typeof(GameObject), true) as GameObject;
-			
+		EditorGUILayout.EndToggleGroup ();
+
+		randomRotation = EditorGUILayout.BeginToggleGroup ("Random Rotation", randomRotation);
+			xRotationVariation = EditorGUILayout.FloatField ("X Rotation", xRotationVariation);
+			yRotationVariation = EditorGUILayout.FloatField ("Y Rotation", yRotationVariation);
+			zRotationVariation = EditorGUILayout.FloatField ("Z Rotation", zRotationVariation);
+		EditorGUILayout.EndToggleGroup ();
+
+		randomScale = EditorGUILayout.BeginToggleGroup ("Random Scale", randomScale);
+			xScaleVariation = EditorGUILayout.FloatField ("X Scale", xScaleVariation);
+			yScaleVariation = EditorGUILayout.FloatField ("Y Scale", yScaleVariation);
+			zScaleVariation = EditorGUILayout.FloatField ("Z Scale", zScaleVariation);
 		EditorGUILayout.EndToggleGroup ();
 
 		if (GUILayout.Button ("Instantiate")) {
@@ -48,7 +71,14 @@ public class ObjectArrayGenerator : EditorWindow {
 				return;
 			}
 
-			Vector3 startLocation = new Vector3 ();
+			Vector3 startLocation;
+			if (spawnLocation != null) {
+				startLocation = spawnLocation.position;
+			} else {
+				startLocation = new Vector3 ();
+			}
+
+
 			if (createParent) {
 				emptyParentObject = new GameObject ();
 				emptyParentObject.name = emptyParentName;
@@ -86,6 +116,7 @@ public class ObjectArrayGenerator : EditorWindow {
 		GameObject newObj = (GameObject) PrefabUtility.InstantiatePrefab (obj);
 		Undo.RegisterCreatedObjectUndo (newObj, "Created Object");
 		newObj.transform.position = instantiateLocation;
+
 		if (parenting) {
 			if (createParent) {
 				newObj.transform.parent = emptyParentObject.transform;
@@ -94,6 +125,26 @@ public class ObjectArrayGenerator : EditorWindow {
 			} else {
 			
 			}
+		}
+
+		if (randomRotation) {
+			float xRotation = Random.Range (-xRotationVariation, xRotationVariation);
+			float yRotation = Random.Range (-yRotationVariation, yRotationVariation);
+			float zRotation = Random.Range (-zRotationVariation, zRotationVariation);
+
+			Vector3 eulers = newObj.transform.rotation.eulerAngles;
+			Vector3 newRotation = eulers + new Vector3 (xRotation, yRotation, zRotation);
+			newObj.transform.rotation = Quaternion.Euler (newRotation);
+		}
+
+		if (randomScale) {
+			float xScale = Random.Range (1, xScaleVariation);
+			float yScale = Random.Range (1, yScaleVariation);
+			float zScale = Random.Range (1, zScaleVariation);
+
+			Vector3 scale = newObj.transform.localScale;
+			Vector3 newScale = new Vector3 (xScale, yScale, zScale);
+			newObj.transform.localScale = newScale;
 		}
 	}
 
