@@ -6,7 +6,8 @@ public class CastSpell : MonoBehaviour {
 	public Spell currentSpell;
 
 	void Start(){
-		currentSpell = GetComponent<FireBolt>();
+		currentSpell = new FireBolt ();
+
 	}
 	
 	// Update is called once per frame
@@ -16,7 +17,8 @@ public class CastSpell : MonoBehaviour {
 		}
 
 		if (Input.GetButton ("Jump")) {
-			GetComponent<FireBolt>().Cast();
+			currentSpell.caster = gameObject;
+			StartCoroutine(currentSpell.Cast());
 		}
 	}
 }
