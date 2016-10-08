@@ -6,7 +6,7 @@ public class CastSpell : MonoBehaviour {
 	public Spell currentSpell;
 
 	void Start(){
-		currentSpell = new FireBolt ();
+		currentSpell = new FireRing ();
 
 	}
 	
@@ -18,6 +18,7 @@ public class CastSpell : MonoBehaviour {
 
 		if (Input.GetButton ("Jump")) {
 			currentSpell.caster = gameObject;
+			currentSpell.target = transform.position;
 			StartCoroutine(currentSpell.Cast());
 		}
 	}

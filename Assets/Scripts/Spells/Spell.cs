@@ -6,6 +6,7 @@ public abstract class Spell {
 
 
 	public string[] targetTags;
+	public Vector3 target;
 	public float cooldown;
 	public float castTime;
 	public GameObject caster;
