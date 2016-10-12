@@ -17,10 +17,8 @@ public class AbilityContoller : MonoBehaviour {
 		if (Time.time <= nextCooldownTime) {
 			return; // Ability still on cooldown
 		} else if(Input.GetButtonDown("Jump")) {
-			Debug.Log ("current time: " + Time.time);
 			spell.Trigger ();
 			nextCooldownTime = Time.time + spell.cooldown;
-			Debug.Log("Next cooldown: "+ nextCooldownTime); 
 		}
 	}
 }
