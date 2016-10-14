@@ -13,3 +13,7 @@ Camera is locked behind player.
 
 ### ClickEditorWindow.unitypackage
 Contains editor window which demonstrates how to capture click events from a scene.
+
+### Object Pooler.unitypackage
+Contains Game Pooler scripts.
+Also contains an example scene _Pooler Scene_, which demonstrates how to configure GameObject Pooler.
