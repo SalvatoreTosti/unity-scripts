@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[CreateAssetMenu (menuName = "Spells/SpellEffect/ParticleEffect")]
+[CreateAssetMenu (menuName = "Spells/Spell Effect/Particle Effect")]
 public class ParticleEffect : SpellEffect {
 
 	public float duration;
@@ -10,7 +10,6 @@ public class ParticleEffect : SpellEffect {
 
 	public override void Initialize (GameObject obj)
 	{
-		Debug.Log (obj.name);
 		target = obj.transform;
 
 	}

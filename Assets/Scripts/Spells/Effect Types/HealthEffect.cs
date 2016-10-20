@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[CreateAssetMenu (menuName = "Spells/SpellEffect/HealthEffect")]
+[CreateAssetMenu (menuName = "Spells/Spell Effect/Health Effect")]
 public class HealthEffect : SpellEffect {
 	
 	public float damage;

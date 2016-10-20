@@ -4,12 +4,12 @@ using System.Collections;
 public class AbilityContoller : MonoBehaviour {
 
 	private float nextCooldownTime;
-	[SerializeField]  aSpell spell;
+	[SerializeField]  Spell spell;
 
 	// Use this for initialization
 	void Start () {
 		nextCooldownTime = Time.time;
-		spell.Initialize (this.gameObject);
+		StartTasks (spell.Initialize (this.gameObject));
 	}
 	
 	// Update is called once per frame
@@ -17,8 +17,18 @@ public class AbilityContoller : MonoBehaviour {
 		if (Time.time <= nextCooldownTime) {
 			return; // Ability still on cooldown
 		} else if(Input.GetButtonDown("Jump")) {
-			spell.Trigger ();
+			StartTasks (spell.Trigger ());
 			nextCooldownTime = Time.time + spell.cooldown;
+		}
+	}
+
+	private void StartTasks(IEnumerator[] tasks){
+		if (tasks == null) {
+			return;
+		} else {
+			foreach (IEnumerator task in tasks) {
+				StartCoroutine (task);
+			}
 		}
 	}
 }
