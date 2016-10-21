@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-[CreateAssetMenu (menuName = "Spells/Poison Bolt")]
-public class PoisonBolt : Spell {
+[CreateAssetMenu (menuName = "Spells/Projectile Bolt")]
+public class ProjectileBolt : Spell {
 
 	public GameObject projectile;
 	public float force;

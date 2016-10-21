@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 [CreateAssetMenu (menuName = "Spells/Poison Ring")]
-public class PoisonRing : Spell {
+public class CasterAOE : Spell {
 
 	[HideInInspector] public Vector3 location;
 	public float radius;

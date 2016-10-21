@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[CreateAssetMenu (menuName = "Spells/SpellEffect/DOTEffect")]
+[CreateAssetMenu (menuName = "Spells/Spell Effect/DOT Effect")]
 public class DOTEffect : SpellEffect
 {
 	public float damage;
