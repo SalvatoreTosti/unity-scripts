@@ -2,17 +2,20 @@
 using System.Collections;
 
 [CreateAssetMenu (menuName = "Spells/Spell Effect/OT Effect Fixed")]
-public class OTEffectFixed : SpellEffect {
+public class OTEffectFixed : SpellEffect
+{
 
 	public float amount;
 	public float duration;
 	public float delay;
-	public bool heal;
+	public bool buff;
+
+	public Stats.STAT_TYPE statType;
 
 	private float tickTime;
 	private int tickNumber;
-	private float tickHealthAmount;
-	private float endHealthAmount;
+	private float tickAmount;
+	private float endAmount;
 
 	[HideInInspector] public Stats stats;
 
@@ -20,20 +23,20 @@ public class OTEffectFixed : SpellEffect {
 	{
 		stats = obj.GetComponent<Stats> ();
 		if (stats != null) {
-			float healthAmount = amount;
-			if (heal) {
-				endHealthAmount = stats.currentHealth + healthAmount;
+			if (buff) {
+				endAmount = (float) stats.GetStat (statType) + amount;
 			} else {
-				endHealthAmount = stats.currentHealth - healthAmount;
+				endAmount = (float) stats.GetStat (statType) - amount;
 			}
+			endAmount = Mathf.Round (endAmount);
 
 			if (duration == 0) {
 				tickNumber = 1;
-				tickHealthAmount = healthAmount;
+				tickAmount = amount;
 				tickTime = 0;
 			} else {
 				tickNumber = (int)(30.0f * duration); // base assumption of 30 ticks a second
-				tickHealthAmount = healthAmount / tickNumber;
+				tickAmount = amount / tickNumber;
 				tickTime = duration / tickNumber;
 			}
 		}
@@ -42,28 +45,34 @@ public class OTEffectFixed : SpellEffect {
 	public override IEnumerator Trigger ()
 	{
 		if (stats != null) {
-			yield return new WaitForSeconds (delay);
+			float currentAmount = (float)stats.GetStat (statType);
+			yield return new  WaitForSeconds (delay);
 			for (int i = 0; i < tickNumber; i++) {
 				if (stats != null) {
-					if (heal) {
-						stats.currentHealth += tickHealthAmount;
-					} else {
-						stats.currentHealth -= tickHealthAmount;
-					}
+					currentAmount = ProtectedAdjustment (buff, currentAmount, endAmount, tickAmount);
+					stats.SetStat (statType, currentAmount);
 				}
 				yield return new WaitForSeconds (tickTime);
-
 			}
-			roundingProtection ();
+			stats.SetStat (statType, endAmount); //final adjustment to remove any remaining small amounts
 		}
-
 	}
 
-	private void roundingProtection ()
+	private float ProtectedAdjustment (bool isBuff, float current, float final, float adjustment)
 	{
-		if (stats == null) {
-			return;
+		if (isBuff) {
+			if (current + adjustment > final) {
+				return final;
+			} else {
+				return current + adjustment;
+			}
+		} else {
+			if (current - adjustment < final) {
+				return final;
+			} else {
+				return current - adjustment;
+			}
 		}
-		stats.currentHealth = Mathf.Round (stats.currentHealth);
 	}
+		
 }

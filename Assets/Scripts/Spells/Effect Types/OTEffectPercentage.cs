@@ -1,18 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEditor;
 
 [CreateAssetMenu (menuName = "Spells/Spell Effect/OT Effect Percentage")]
 public class OTEffectPercentage : SpellEffect
 {
+	[Range (0.0f, 2.0f)] 
 	public float percentage;
 	public float duration;
 	public float delay;
-	public bool heal;
+	public bool buff;
+
+	public Stats.STAT_TYPE statType;
 
 	private float tickTime;
 	private int tickNumber;
-	private float tickHealthAmount;
-	private float endHealthAmount;
+	private float tickAmount;
+	private float endAmount;
 
 	[HideInInspector] public Stats stats;
 
@@ -20,19 +24,21 @@ public class OTEffectPercentage : SpellEffect
 	{
 		stats = obj.GetComponent<Stats> ();
 		if (stats != null) {
-			float healthAmount = stats.baseHealth * percentage;
-			if (heal) {
-				endHealthAmount = stats.currentHealth + healthAmount;
+			float totalAmount = (float)stats.GetStat (statType) * percentage;
+			if (buff) {
+				endAmount = (float)stats.GetStat (statType) + totalAmount;
 			} else {
-				endHealthAmount = stats.currentHealth - healthAmount;
+				endAmount = (float)stats.GetStat (statType) - totalAmount;
 			}
+			endAmount = Mathf.Round (endAmount);
+
 			if (duration == 0) {
 				tickNumber = 1;
-				tickHealthAmount = healthAmount;
+				tickAmount = totalAmount;
 				tickTime = 0;
 			} else {
-				tickNumber = (int)(30.0f * duration); // base assumption of 30 ticks a second
-				tickHealthAmount = healthAmount / tickNumber;
+				tickNumber = (int) (30.0f * duration); // base assumption of 30 ticks a second
+				tickAmount = totalAmount / tickNumber;
 				tickTime = duration / tickNumber;
 			}
 		}
@@ -41,27 +47,33 @@ public class OTEffectPercentage : SpellEffect
 	public override IEnumerator Trigger ()
 	{
 		if (stats != null) {
+			float currentAmount = (float)stats.GetStat (statType);
+			yield return new  WaitForSeconds (delay);
 			for (int i = 0; i < tickNumber; i++) {
 				if (stats != null) {
-					if (heal) {
-						stats.currentHealth += tickHealthAmount;
-					} else {
-						stats.currentHealth -= tickHealthAmount;
-					}
+					currentAmount = ProtectedAdjustment (buff, currentAmount, endAmount, tickAmount);
+					stats.SetStat (statType, currentAmount);
 				}
 				yield return new WaitForSeconds (tickTime);
-
 			}
-			roundingProtection ();
+			stats.SetStat (statType, endAmount); //final adjustment to remove any remaining small amounts
 		}
-
 	}
 
-	private void roundingProtection ()
+	private float ProtectedAdjustment (bool isBuff, float current, float final, float adjustment)
 	{
-		if (stats == null) {
-			return;
+		if (isBuff) {
+			if (current + adjustment > final) {
+				return final;
+			} else {
+				return current + adjustment;
+			}
+		} else {
+			if (current - adjustment < final) {
+				return final;
+			} else {
+				return current - adjustment;
+			}
 		}
-		stats.currentHealth = Mathf.Round (stats.currentHealth);
 	}
 }
