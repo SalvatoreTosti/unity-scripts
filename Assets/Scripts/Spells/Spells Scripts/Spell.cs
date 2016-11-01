@@ -6,11 +6,18 @@ public abstract class Spell : ScriptableObject {
 
 	public float cooldown;
 	public float castTime;
+	[HideInInspector] public float nextCooldownTime;
 
 	public abstract IEnumerator[] Initialize (GameObject obj);
 	public abstract IEnumerator[] Trigger ();
 
-	protected abstract List<IEnumerator> applyCasterEffects(GameObject caster);
-	protected abstract List<IEnumerator> applyEnemyEffects(Collider collider);
-
+	protected virtual List<IEnumerator> applyEffects(GameObject target, SpellEffect[] effects){
+		List<IEnumerator> effectEnumerators = new List<IEnumerator> ();
+		foreach (SpellEffect effect in effects) {
+			SpellEffect effectCopy = ScriptableObject.Instantiate (effect) as SpellEffect;
+			effectCopy.Initialize (target);
+			effectEnumerators.Add(effectCopy.Trigger());
+		}
+		return effectEnumerators;
+	}
 }

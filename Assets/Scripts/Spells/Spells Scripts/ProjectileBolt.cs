@@ -23,14 +23,4 @@ public class ProjectileBolt : Spell {
 		prj.GetComponent<Rigidbody> ().AddForce (caster.GetComponent<ProjectileSpawn> ().spawn.forward * force);
 		return null;
 	}
-
-	protected override List<IEnumerator> applyCasterEffects (GameObject caster)
-	{
-		throw new System.NotImplementedException ();
-	}
-
-	protected override List<IEnumerator> applyEnemyEffects (Collider collider)
-	{
-		throw new System.NotImplementedException ();
-	}
 }
