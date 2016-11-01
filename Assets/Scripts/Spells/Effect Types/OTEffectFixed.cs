@@ -11,6 +11,7 @@ public class OTEffectFixed : SpellEffect
 	public bool buff;
 
 	public Stats.STAT_TYPE statType;
+	public SpellEffect.EFFECT_TYPE effectType;
 
 	private float tickTime;
 	private int tickNumber;

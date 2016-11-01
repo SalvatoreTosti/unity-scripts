@@ -17,9 +17,9 @@ public class StatEffect : SpellEffect {
 	public override IEnumerator Trigger ()
 	{
 		if (stats != null) {
-			stats.Apply (statType, amount);
+			stats.Set (statType, amount);
 			yield return new WaitForSeconds (duration);
-			stats.Apply (statType, -amount);
+			stats.Set (statType, -amount);
 		}
 	}
 }

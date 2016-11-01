@@ -20,10 +20,14 @@ public class StatEffectPercentage : SpellEffect {
 		if (stats != null) {
 			int originalStatValue = stats.GetStat (statType);
 			int newStatValue = originalStatValue * percentageAmount;
-			int diff = originalStatValue - newStatValue;
-			stats.Apply (statType, diff);
+			int diff = originalStatValue + newStatValue;
+			stats.Set (statType, diff);
 			yield return new WaitForSeconds (duration);
-			stats.Apply (statType, -diff);
+			stats.Set (statType, originalStatValue);
 		}
 	}
+
+//	private int calcPercent(){
+//		percentageAmount
+//	}
 }

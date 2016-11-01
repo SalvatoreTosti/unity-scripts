@@ -11,7 +11,6 @@ public class ParticleEffect : SpellEffect {
 	public override void Initialize (GameObject obj)
 	{
 		target = obj.transform;
-
 	}
 
 	public override IEnumerator Trigger ()
