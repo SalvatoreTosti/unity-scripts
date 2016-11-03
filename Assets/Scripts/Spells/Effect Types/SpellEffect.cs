@@ -11,7 +11,7 @@ public abstract class SpellEffect : ScriptableObject {
 		POISON
 	}
 
-	public abstract void Initialize (GameObject obj);
+	public abstract void Initialize (GameObject caster, GameObject target);
 	public abstract IEnumerator Trigger ();
 
 }

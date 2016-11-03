@@ -10,9 +10,9 @@ public class StatEffectPercentage : SpellEffect {
 	[HideInInspector] public Stats stats;
 	private int originalStatValue;
 
-	public override void Initialize (GameObject obj)
+	public override void Initialize (GameObject caster, GameObject target)
 	{
-		stats = obj.GetComponent<Stats> ();
+		stats = target.GetComponent<Stats> ();
 	}
 
 	public override IEnumerator Trigger ()

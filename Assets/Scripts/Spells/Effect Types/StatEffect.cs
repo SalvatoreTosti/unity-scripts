@@ -9,7 +9,7 @@ public class StatEffect : SpellEffect {
 	public int amount;
 	[HideInInspector] public Stats stats;
 
-	public override void Initialize (GameObject obj)
+	public override void Initialize (GameObject caster, GameObject obj)
 	{
 		stats = obj.GetComponent<Stats> ();
 	}
@@ -17,9 +17,9 @@ public class StatEffect : SpellEffect {
 	public override IEnumerator Trigger ()
 	{
 		if (stats != null) {
-			stats.Set (statType, amount);
+			stats.Apply (statType, amount);
 			yield return new WaitForSeconds (duration);
-			stats.Set (statType, -amount);
+			stats.Apply (statType, -amount);
 		}
 	}
 }

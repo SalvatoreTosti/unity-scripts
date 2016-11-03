@@ -17,7 +17,7 @@ public class SingleTarget : Spell {
 	public override IEnumerator[] Trigger ()
 	{
 		List<IEnumerator> effects = new List<IEnumerator> ();
-		effects.AddRange(applyEffects (caster, casterEffects));
+		effects.AddRange(applyEffects (caster, caster, casterEffects));
 		Collider collider = null;
 		if (validSpellTarget ()) {
 			collider = caster.GetComponent<SpellTarget> ().target.GetComponent<Collider> ();
@@ -25,7 +25,7 @@ public class SingleTarget : Spell {
 		}
 		if (collider != null) {
 			if (collider.tag == "Enemy") {
-				effects.AddRange (applyEffects (collider.gameObject, enemyEffects));
+				effects.AddRange (applyEffects (caster, collider.gameObject, enemyEffects));
 			}
 		}
 		return effects.ToArray();

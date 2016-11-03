@@ -21,9 +21,9 @@ public class OTEffectPercentage : SpellEffect
 
 	[HideInInspector] public Stats stats;
 
-	public override void Initialize (GameObject obj)
+	public override void Initialize (GameObject caster, GameObject target)
 	{
-		stats = obj.GetComponent<Stats> ();
+		stats = target.GetComponent<Stats> ();
 		if (stats != null) {
 			float totalAmount = (float)stats.GetStat (statType) * percentage;
 			if (buff) {
