@@ -3,10 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 
 [CreateAssetMenu (menuName = "Spells/Caster Area Of Effect")]
-public class CasterAOE : Spell {
+public class CasterAOE : SingleSpell {
 
 	[HideInInspector] public Vector3 location;
-	public float radius;
 	[HideInInspector] public GameObject caster;
 	public SpellEffect[] targetEffects;
 	public SpellEffect[] casterEffects;
@@ -24,9 +23,11 @@ public class CasterAOE : Spell {
 		List<IEnumerator> effects = new List<IEnumerator> ();
 		effects.AddRange(applyEffects (caster, caster, casterEffects));
 		location = caster.transform.position;
-		Collider[] colliders = Physics.OverlapSphere (location, radius);
+		Collider[] colliders = Physics.OverlapSphere (location, range);
 		foreach (Collider collider in colliders) {
-			if (collider.tag == "Enemy") {
+			List<string> targetTagsList = new List<string> (targetTags);
+			if(targetTagsList.Contains(collider.tag)){
+				Debug.Log ("Target Name: " + collider.name);
 				effects.AddRange(applyEffects (caster, collider.gameObject, targetEffects));
 			}
 		}

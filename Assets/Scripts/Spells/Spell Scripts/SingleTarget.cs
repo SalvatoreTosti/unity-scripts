@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 [CreateAssetMenu (menuName = "Spells/Single Target")]
-public class SingleTarget : Spell {
+public class SingleTarget : SingleSpell {
 	[HideInInspector] public GameObject caster;
 	public SpellEffect[] enemyEffects;
 	public SpellEffect[] casterEffects;
@@ -20,11 +20,10 @@ public class SingleTarget : Spell {
 		effects.AddRange(applyEffects (caster, caster, casterEffects));
 		Collider collider = null;
 		if (validSpellTarget ()) {
-			collider = caster.GetComponent<SpellTarget> ().target.GetComponent<Collider> ();
-			Debug.Log ("target name: " + collider.name);
-		}
+			collider = caster.GetComponent<SpellTarget> ().target.GetComponent<Collider> ();		}
 		if (collider != null) {
-			if (collider.tag == "Enemy") {
+			List<string> targetTagsList = new List<string> (targetTags);
+			if(targetTagsList.Contains(collider.tag)){
 				effects.AddRange (applyEffects (caster, collider.gameObject, enemyEffects));
 			}
 		}

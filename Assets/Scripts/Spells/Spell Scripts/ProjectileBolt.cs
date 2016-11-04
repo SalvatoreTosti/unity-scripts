@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 [CreateAssetMenu (menuName = "Spells/Projectile Bolt")]
-public class ProjectileBolt : Spell {
+public class ProjectileBolt : SingleSpell {
 
 	public GameObject projectile;
 	public float force;
