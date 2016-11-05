@@ -21,6 +21,7 @@ public class HealthEffect : SpellEffect
 	public int d12;
 	public int d20;
 	public int d100;
+	public int weaponDamageMultiplier = 0;
 	public int flatAmount;
 	[HideInInspector] public Stats casterStats;
 	[HideInInspector] public Stats targetStats;
@@ -34,7 +35,7 @@ public class HealthEffect : SpellEffect
 	public override IEnumerator Trigger ()
 	{
 		if (targetStats != null) {
-			int totalAmount = GetRollAmount () + GetModifier();
+			int totalAmount = GetRollAmount () + GetModifier ();
 			if (totalAmount < 0) {
 				totalAmount = 0; //round to zero, negatives will flip health applied
 			}
@@ -58,10 +59,12 @@ public class HealthEffect : SpellEffect
 			DiceUtilities.RollD12 (d12) +
 			DiceUtilities.RollD20 (d20) +
 			DiceUtilities.RollD100 (d100) +
+			GetModifier()+
 			flatAmount;
 	}
 
-	private int GetModifier(){
+	private int GetModifier ()
+	{
 		int modifier = casterStats.GetModifier (modifierStatType);
 		return modifier;
 	}
