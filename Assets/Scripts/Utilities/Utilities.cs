@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class Utilities : MonoBehaviour {
 	//A place for general utilities
 
-	public static bool hasTags(Collider collider, string[] tags){
+	public static bool HasTags(Collider collider, string[] tags){
 		foreach (string tag in tags) {
 			if (collider.tag == tag) {
 				return true;
@@ -15,7 +15,7 @@ public class Utilities : MonoBehaviour {
 		return false;
 	}
 
-	public static bool hasTags(GameObject obj, string[] tags){
+	public static bool HasTags(GameObject obj, string[] tags){
 		foreach (string tag in tags) {
 			if (obj.tag == tag) {
 				return true;
@@ -24,7 +24,7 @@ public class Utilities : MonoBehaviour {
 		return false;
 	}
 
-	public static Collider[] getCollidersWithTags(Vector3 location, float overlapSize, string[] tags){
+	public static Collider[] GetCollidersWithTags(Vector3 location, float overlapSize, string[] tags){
 		List<Collider> selectedColliders = new List<Collider> ();
 		Collider[] colliders = Physics.OverlapSphere (location, overlapSize);
 		foreach (Collider collider in colliders) {
@@ -35,7 +35,7 @@ public class Utilities : MonoBehaviour {
 		return selectedColliders.ToArray ();
 	}
 
-	public static Collider nearestCollider(Transform trans, Collider[] colliders){
+	public static Collider NearestCollider(Transform trans, Collider[] colliders){
 		if (colliders == null) {
 			Debug.Log ("Null collider array passed");
 			return null;
@@ -57,7 +57,21 @@ public class Utilities : MonoBehaviour {
 		return nearest;
 	}
 
-	public static List<Transform> getDescendentTransforms(Transform parent){
+	public static Collider GetRandomCollider(Collider[] colliders){
+	if (colliders == null) {
+		Debug.Log ("Null collider array passed");
+		return null;
+	}
+	if (colliders.Length == 0) {
+		Debug.Log ("Empty collider array passed");
+		return null;
+	}
+
+	int randomLocation = Random.Range (0, colliders.Length - 1);
+	return colliders [randomLocation];
+}
+
+	public static List<Transform> GetDescendentTransforms(Transform parent){
 		if (parent == null) {
 			return new List<Transform> (); //return empty list if passed null
 		}
@@ -70,7 +84,7 @@ public class Utilities : MonoBehaviour {
 		return transforms;
 	}
 
-	public static List<Transform> getDescendentTransforms(GameObject obj){
+	public static List<Transform> GetDescendentTransforms(GameObject obj){
 		if (obj == null) {
 			return new List<Transform> (); //return empty list if passed null
 		}
@@ -78,7 +92,7 @@ public class Utilities : MonoBehaviour {
 		return getDescendentTransforms (parent);
 	}
 
-	public static GameObject[] getDescendentObjects(Transform parent){
+	public static GameObject[] GetDescendentObjects(Transform parent){
 		if (parent == null) {
 			return new GameObject[0]; //return empty array if passed null
 		}
@@ -90,7 +104,7 @@ public class Utilities : MonoBehaviour {
 		return objectList.ToArray();
 	}
 
-	public static GameObject[] getDescendentObjects(GameObject obj){
+	public static GameObject[] GetDescendentObjects(GameObject obj){
 		if (obj == null) {
 			return new GameObject[0]; //return empty array if passed null
 		}
