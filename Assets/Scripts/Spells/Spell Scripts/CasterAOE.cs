@@ -27,7 +27,6 @@ public class CasterAOE : SingleSpell {
 		foreach (Collider collider in colliders) {
 			List<string> targetTagsList = new List<string> (targetTags);
 			if(targetTagsList.Contains(collider.tag)){
-				Debug.Log ("Target Name: " + collider.name);
 				effects.AddRange(applyEffects (caster, collider.gameObject, targetEffects));
 			}
 		}

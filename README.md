@@ -1,85 +1,17 @@
 # unity-scripts
-A storage place for commonly used Unity scripts
+Reusable scripts, objects and packages for use with Unity 5.x
 
-## Editor
+## Assets
+  Editor and game scripts, ready to be dropped into any project at any time.
 
-### ClickEditorWindow.cs
+## Packages
+  Asset packages, pre-prepared prefabs for use in any project.
 
-_Overview:_
+## Default Folders
+  The project directory setup you need to get a project rolling.
 
-GUIWindow template for an editor window which responds to clicks in the scene.
+## Authors
+  Salvatore Tosti
 
-_Usage:_
-
-Place script in Assets/Editor then navigate to Window > Click Tracking Window from the menubar.
-
-### ObjectArrayGenerator.cs
-
-_Overview:_
-
-GUIWindow which allows user to quickly generate arrays objects.
-The editor supports 2D and 3D array generation.
-It also supports parenting to existing objects, or it can generate an empty object which will become the parent for all generated objects.
-
-_Usage:_
-
-Place script in Assets/Editor then navigate to Window > Click Tracking Window from the menubar.
-
-___
-
-## Scripts
-
-### EditorGridSnap.cs
-
-_Overview:_
-
-Snaps object to the nearest x, y and z coordinates.
-
-_Usage:_
-
-Attach the script to any object.
-Object movement in the editor will then be snapped to the nearest whole x,y,z coordinate.
-
-### XYEditorGridSnap.cs
-
-_Overview:_
-
-Snaps object to the nearest x and y coordinates.
-
-_Usage:_
-
-Attach the script to any object.
-Object movement in the editor will then be snapped to the nearest whole x, y coordinate, remaining at it's current z coordinate.
-This is helpful when snapping in a 2D environment.
-
-### EditorAutoParent.cs
-
-_Overview:_
-
-Automatically makes object a child of selected parent.
-
-_Usage:_
-
-Attach the script to any object.
-Select parent object in the editor menu.
-
-### Utilities.cs
-
-_Overview:_
-
-Contains functions which are applicable across projects.
-
-_Usage:_
-
-Currently all functions can be called from a static context.
-
-
-### Utilites2D.cs
-
-_Overview:_
-
-Contains functions which are applicable across 2D projects.
-
-_Usage:_
-
-Currently all functions can be called from a static context.
+## License
+  Licensed under the MIT License.
