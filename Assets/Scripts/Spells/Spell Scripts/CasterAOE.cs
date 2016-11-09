@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+//[System.Serializable]
 [CreateAssetMenu (menuName = "Spells/Caster Area Of Effect")]
 public class CasterAOE : SingleSpell
 {
@@ -9,18 +10,19 @@ public class CasterAOE : SingleSpell
 	public enum TARGET_TYPE
 	{
 		TARGET_ALL,
-		TARGET_SINGLE_RANDOM}
-
-	;
+		TARGET_RANDOM
+	};
 
 	[HideInInspector] public Vector3 location;
 	[HideInInspector] public GameObject caster;
+
 	public SpellEffect[] targetEffects;
 	public SpellEffect[] casterEffects;
 	public SpellEffect[] missTargetEffects;
 	public SpellEffect[] missCasterEffects;
 
 	public TARGET_TYPE targetType;
+	public int maxRandomTargets;
 	public bool includeCaster; //permit caster to be targeted object
 
 	public override IEnumerator[] Initialize (GameObject obj)
@@ -48,7 +50,7 @@ public class CasterAOE : SingleSpell
 			colliders = colliderList.ToArray ();
 		}
 
-		if (targetType == TARGET_TYPE.TARGET_SINGLE_RANDOM) {
+		if (targetType == TARGET_TYPE.TARGET_RANDOM) {
 			Collider collider = Utilities.GetRandomCollider (colliders);
 			effects.AddRange (applyEffects (caster, collider.gameObject, targetEffects));
 		} else {
