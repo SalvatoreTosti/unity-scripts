@@ -11,7 +11,10 @@ public class MultiSpell : Spell {
 	{
 		List<IEnumerator> enumerators = new List<IEnumerator> ();
 		foreach(SingleSpell spell in spells){
-			enumerators.AddRange(spell.Initialize (obj));
+			IEnumerator[] enumeratorArray = spell.Initialize (obj);
+			if (enumeratorArray != null) {
+				enumerators.AddRange (enumeratorArray);
+			}
 		}
 		return enumerators.ToArray();
 	}
