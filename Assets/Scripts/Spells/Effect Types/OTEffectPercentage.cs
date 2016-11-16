@@ -53,12 +53,17 @@ public class OTEffectPercentage : SpellEffect
 			for (int i = 0; i < tickNumber; i++) {
 				if (stats != null) {
 					currentAmount = ProtectedAdjustment (buff, currentAmount, endAmount, tickAmount);
-					stats.SetStat (statType, currentAmount);
+					stats.SetStat (statType, (int) currentAmount);
 				}
 				yield return new WaitForSeconds (tickTime);
 			}
-			stats.SetStat (statType, endAmount); //final adjustment to remove any remaining small amounts
+			stats.SetStat (statType, (int) endAmount); //final adjustment to remove any remaining small amounts
 		}
+	}
+
+	public override void Apply (Stats.StatList statList)
+	{
+		throw new System.NotImplementedException ();
 	}
 
 	private float ProtectedAdjustment (bool isBuff, float current, float final, float adjustment)

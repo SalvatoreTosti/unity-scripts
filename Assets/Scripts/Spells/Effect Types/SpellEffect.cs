@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[System.Serializable]
 public abstract class SpellEffect : ScriptableObject {
 
 	public enum EFFECT_TYPE
@@ -13,5 +14,6 @@ public abstract class SpellEffect : ScriptableObject {
 
 	public abstract void Initialize (GameObject caster, GameObject target);
 	public abstract IEnumerator Trigger ();
+	public abstract void Apply(Stats.StatList statList);
 
 }

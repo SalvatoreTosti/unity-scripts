@@ -27,6 +27,11 @@ public class StatEffectPercentage : SpellEffect {
 		}
 	}
 
+	public override void Apply (Stats.StatList statList)
+	{
+		throw new System.NotImplementedException ();
+	}
+
 //	private int calcPercent(){
 //		percentageAmount
 //	}

@@ -36,6 +36,7 @@ public class HealthEffect : SpellEffect
 	{
 		if (targetStats != null) {
 			int totalAmount = GetRollAmount () + GetModifier ();
+			Debug.Log ("total amount of dam: " + totalAmount);
 			if (totalAmount < 0) {
 				totalAmount = 0; //round to zero, negatives will flip health applied
 			}
@@ -46,6 +47,11 @@ public class HealthEffect : SpellEffect
 			}
 			yield return null;
 		}
+	}
+
+	public override void Apply (Stats.StatList statList)
+	{
+		throw new System.NotImplementedException ();
 	}
 
 	private int GetRollAmount ()
@@ -59,7 +65,7 @@ public class HealthEffect : SpellEffect
 			DiceUtilities.RollD12 (d12) +
 			DiceUtilities.RollD20 (d20) +
 			DiceUtilities.RollD100 (d100) +
-			GetModifier()+
+			GetModifier() +
 			flatAmount;
 	}
 
@@ -68,6 +74,4 @@ public class HealthEffect : SpellEffect
 		int modifier = casterStats.GetModifier (modifierStatType);
 		return modifier;
 	}
-
-
 }
