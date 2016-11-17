@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 [System.Serializable]
 [CreateAssetMenu (menuName = "Spells/Spell Effect/Stat Effect")]
-public class StatEffect : SpellEffect {
+public class StatEffect : SpellEffect, IPipeableEffect {
 
 	public float duration;
 	public Stats.STAT_TYPE statType;
@@ -25,9 +25,10 @@ public class StatEffect : SpellEffect {
 		}
 	}
 
-	public override void Apply(Stats.StatList statList){
+	public Stats.StatList Pipe(Stats.StatList statList){
 		int statAmount = statList.GetStat (statType);
 		int newAmount = statAmount + amount;
 		statList.SetStat (statType, newAmount);
+		return statList;
 	}
 }

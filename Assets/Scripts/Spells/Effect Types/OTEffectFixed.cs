@@ -59,11 +59,6 @@ public class OTEffectFixed : SpellEffect
 		}
 	}
 
-	public override void Apply (Stats.StatList statList)
-	{
-		throw new System.NotImplementedException ();
-	}
-
 	private float ProtectedAdjustment (bool isBuff, float current, float final, float adjustment)
 	{
 		if (isBuff) {

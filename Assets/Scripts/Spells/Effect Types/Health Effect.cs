@@ -49,11 +49,6 @@ public class HealthEffect : SpellEffect
 		}
 	}
 
-	public override void Apply (Stats.StatList statList)
-	{
-		throw new System.NotImplementedException ();
-	}
-
 	private int GetRollAmount ()
 	{
 		return

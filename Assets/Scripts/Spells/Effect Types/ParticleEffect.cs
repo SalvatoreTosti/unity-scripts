@@ -25,9 +25,4 @@ public class ParticleEffect : SpellEffect {
 			particleSystem.Stop ();
 		}
 	}
-
-	public override void Apply (Stats.StatList statList)
-	{
-		throw new System.NotImplementedException ();
-	}
 }

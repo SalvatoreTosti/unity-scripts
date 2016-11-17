@@ -112,13 +112,27 @@ public class Stats : MonoBehaviour
 	public int charisma;
 	public int movementSpeed;
 
-	public SpellEffect[] activeEffects;
+	public SpellEffect[] testActiveEffects; //inspector access for pipeable effects
+	public IPipeableEffect[] activeEffects;
 
 	void Start(){
+		testCopyEffects ();
 		StatList list = ApplyCurrentEffects ();
 		Debug.Log (this.gameObject.name);
 		Debug.Log ("List size: " + list.Count ());
 		list.Print ();
+
+	}
+
+	private void testCopyEffects(){
+		List<IPipeableEffect> pipeables = new List<IPipeableEffect>();
+		foreach (SpellEffect effect in testActiveEffects) {
+			if (effect is IPipeableEffect) {
+				pipeables.Add ((IPipeableEffect) effect);
+			}
+		}
+		Debug.Log ("pipeable Size: " + pipeables.Count);
+		activeEffects = pipeables.ToArray ();
 	}
 
 	private StatList GetCurrentStatList()
@@ -129,8 +143,8 @@ public class Stats : MonoBehaviour
 
 	private StatList ApplyCurrentEffects(){
 		StatList statList = GetCurrentStatList ();
-		foreach(SpellEffect effect in activeEffects){
-			effect.Apply (statList);
+		foreach(IPipeableEffect effect in activeEffects){
+			effect.Pipe (statList);
 		}
 		return statList;
 	}
