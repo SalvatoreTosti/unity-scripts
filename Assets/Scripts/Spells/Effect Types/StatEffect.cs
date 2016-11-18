@@ -11,9 +11,9 @@ public class StatEffect : SpellEffect, IPipeableEffect {
 	public int amount;
 	[HideInInspector] public Stats stats;
 
-	public override void Initialize (GameObject caster, GameObject obj)
+	public override void Initialize (GameObject caster, GameObject target)
 	{
-		stats = obj.GetComponent<Stats> ();
+		stats = target.GetComponent<Stats> ();
 	}
 
 	public override IEnumerator Trigger ()
@@ -25,10 +25,23 @@ public class StatEffect : SpellEffect, IPipeableEffect {
 		}
 	}
 
+	public void PipelineInitialize (GameObject caster, GameObject target){
+		stats = target.GetComponent<Stats> ();
+	}
+
+	public IEnumerator PipelineTrigger(){
+		stats.effectPipeline.Add (this);
+		yield return new WaitForSeconds (duration);
+		stats.effectPipeline.Remove (this);
+	}
+
+
+
 	public Stats.StatList Pipe(Stats.StatList statList){
 		int statAmount = statList.GetStat (statType);
 		int newAmount = statAmount + amount;
 		statList.SetStat (statType, newAmount);
 		return statList;
 	}
+
 }

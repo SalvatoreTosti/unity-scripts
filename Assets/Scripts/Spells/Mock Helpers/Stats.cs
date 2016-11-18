@@ -113,15 +113,21 @@ public class Stats : MonoBehaviour
 	public int movementSpeed;
 
 	public SpellEffect[] testActiveEffects; //inspector access for pipeable effects
-	public IPipeableEffect[] activeEffects;
+	public List<IPipeableEffect> effectPipeline = new List<IPipeableEffect>();
 
 	void Start(){
 		testCopyEffects ();
-		StatList list = ApplyCurrentEffects ();
+		StatList list = ApplyPipeline ();
 		Debug.Log (this.gameObject.name);
 		Debug.Log ("List size: " + list.Count ());
 		list.Print ();
+	} 
 
+	void Update(){
+		if (Input.GetButtonDown ("Jump")) {
+			StatList list = ApplyPipeline ();
+			list.Print ();
+		}
 	}
 
 	private void testCopyEffects(){
@@ -131,8 +137,12 @@ public class Stats : MonoBehaviour
 				pipeables.Add ((IPipeableEffect) effect);
 			}
 		}
-		Debug.Log ("pipeable Size: " + pipeables.Count);
-		activeEffects = pipeables.ToArray ();
+
+		foreach (IPipeableEffect pipeable in pipeables) {
+			pipeable.PipelineInitialize (null, this.gameObject);
+			StartCoroutine(pipeable.PipelineTrigger ());
+		}
+
 	}
 
 	private StatList GetCurrentStatList()
@@ -141,9 +151,9 @@ public class Stats : MonoBehaviour
 		return statList;
 	}
 
-	private StatList ApplyCurrentEffects(){
+	private StatList ApplyPipeline(){
 		StatList statList = GetCurrentStatList ();
-		foreach(IPipeableEffect effect in activeEffects){
+		foreach(IPipeableEffect effect in effectPipeline){
 			effect.Pipe (statList);
 		}
 		return statList;
