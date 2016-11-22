@@ -24,6 +24,12 @@ public class CasterAOEEditor : Editor
 			script.casterEffects = null;
 		}
 
+		SerializedProperty range = so.FindProperty ("range");
+		EditorGUILayout.PropertyField (range,true);
+
+		SerializedProperty targetTags = so.FindProperty ("targetTags");
+		EditorGUILayout.PropertyField (targetTags,true);
+
 		SerializedProperty targetType = so.FindProperty ("targetType");
 		EditorGUILayout.PropertyField (targetType,true);
 
