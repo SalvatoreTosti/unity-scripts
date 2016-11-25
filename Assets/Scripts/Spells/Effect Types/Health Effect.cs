@@ -36,7 +36,7 @@ public class HealthEffect : SpellEffect
 	{
 		if (targetStats != null) {
 			int totalAmount = GetRollAmount () + GetModifier ();
-			Debug.Log ("total amount of dam: " + totalAmount);
+			Debug.Log ("modifier amount: " + GetModifier ());
 			if (totalAmount < 0) {
 				totalAmount = 0; //round to zero, negatives will flip health applied
 			}

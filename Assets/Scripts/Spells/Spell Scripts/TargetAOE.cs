@@ -12,7 +12,6 @@ public class TargetAOE : SingleSpell {
 	};
 
 	[HideInInspector] public Vector3 location;
-	[HideInInspector] public GameObject caster;
 	[HideInInspector] public GameObject target;
 
 	public SpellEffect[] targetEffects;
@@ -34,12 +33,12 @@ public class TargetAOE : SingleSpell {
 	public override IEnumerator[] Trigger ()
 	{
 		List<IEnumerator> effects = new List<IEnumerator> ();
-		effects.AddRange (applyEffects (caster, caster, casterEffects));
+		effects.AddRange (ApplyEffects (caster, caster, casterEffects));
 		if (validSpellTarget()) {
 			location = caster.GetComponent<SpellTarget> ().target.transform.position;		
 			//location = target.transform.position;
 		}
-		Collider[] colliders = Utilities.GetCollidersWithTags (location, range, targetTags);
+		Collider[] colliders = Utilities.GetCollidersWithTags (location, GetSpellRange(), targetTags);
 
 		if (includeCaster == false) {
 			List<Collider> colliderList = new List<Collider> (colliders);
@@ -55,10 +54,10 @@ public class TargetAOE : SingleSpell {
 
 		if (targetType == TARGET_TYPE.TARGET_RANDOM) {
 			Collider collider = Utilities.GetRandomCollider (colliders);
-			effects.AddRange (applyEffects (caster, collider.gameObject, targetEffects));
+			effects.AddRange (ApplyEffects (caster, collider.gameObject, targetEffects));
 		} else {
 			foreach (Collider collider in colliders) {
-				effects.AddRange (applyEffects (caster, collider.gameObject, targetEffects));
+				effects.AddRange (ApplyEffects (caster, collider.gameObject, targetEffects));
 			}
 		}
 		return effects.ToArray();

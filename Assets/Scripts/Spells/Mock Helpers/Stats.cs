@@ -116,18 +116,9 @@ public class Stats : MonoBehaviour
 	public List<IPipeableEffect> effectPipeline = new List<IPipeableEffect>();
 
 	void Start(){
-		testCopyEffects ();
-		StatList list = ApplyPipeline ();
-		Debug.Log (this.gameObject.name);
-		Debug.Log ("List size: " + list.Count ());
-		list.Print ();
 	} 
 
 	void Update(){
-		if (Input.GetButtonDown ("Jump")) {
-			StatList list = ApplyPipeline ();
-			list.Print ();
-		}
 	}
 
 	private void testCopyEffects(){

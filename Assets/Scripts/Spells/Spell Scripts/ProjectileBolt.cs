@@ -7,8 +7,6 @@ public class ProjectileBolt : SingleSpell {
 
 	public GameObject projectile;
 	public float force;
-	[HideInInspector] GameObject caster;
-
 
 	public override IEnumerator[] Initialize (GameObject obj)
 	{
