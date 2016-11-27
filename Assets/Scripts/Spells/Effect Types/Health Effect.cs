@@ -23,11 +23,13 @@ public class HealthEffect : SpellEffect
 	public int d100;
 	public int weaponDamageMultiplier = 0;
 	public int flatAmount;
+	[HideInInspector] public GameObject caster;
 	[HideInInspector] public Stats casterStats;
 	[HideInInspector] public Stats targetStats;
 
-	public override void Initialize (GameObject caster, GameObject target)
+	public override void Initialize (GameObject cstr, GameObject target)
 	{
+		caster = cstr;
 		casterStats = caster.GetComponent<Stats> ();
 		targetStats = target.GetComponent<Stats> ();
 	}
@@ -60,6 +62,7 @@ public class HealthEffect : SpellEffect
 			DiceUtilities.RollD12 (d12) +
 			DiceUtilities.RollD20 (d20) +
 			DiceUtilities.RollD100 (d100) +
+			GetWeaponDamage() * weaponDamageMultiplier +
 			GetModifier() +
 			flatAmount;
 	}
@@ -68,5 +71,34 @@ public class HealthEffect : SpellEffect
 	{
 		int modifier = casterStats.GetModifier (modifierStatType);
 		return modifier;
+	}
+
+	private int GetWeaponDamage(){
+		if (ValidWeapon (caster)) {
+			return caster.GetComponent<Inventory> ().equippedWeapon.GetComponent<WeaponStats> ().damage;
+		} else {
+			Debug.Log ("No valid weapon found on:"+ caster.name);
+			return 0;
+		}
+	}
+
+	private bool ValidWeapon(GameObject obj){
+		Inventory inventory = obj.GetComponent<Inventory>();
+		if (inventory == null) {
+			return false;
+		}
+
+		GameObject weapon = inventory.equippedWeapon;
+		if (weapon == null) {
+			return false;
+		}
+
+		WeaponStats weaponStats = weapon.GetComponent<WeaponStats> ();
+		if (weaponStats == null) {
+			return false;
+		}
+
+		return true;
+
 	}
 }
