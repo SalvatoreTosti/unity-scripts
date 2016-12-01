@@ -23,7 +23,6 @@ public class TargetAOE : SingleSpell {
 	public int maxRandomTargets;
 	public bool includeCaster; //permit caster to be targeted object
 
-
 	public override IEnumerator[] Initialize (GameObject obj)
 	{
 		caster = obj;
@@ -36,7 +35,6 @@ public class TargetAOE : SingleSpell {
 		effects.AddRange (ApplyEffects (caster, caster, casterEffects));
 		if (validSpellTarget()) {
 			location = caster.GetComponent<SpellTarget> ().target.transform.position;		
-			//location = target.transform.position;
 		}
 		Collider[] colliders = Utilities.GetCollidersWithTags (location, GetSpellRange(), targetTags);
 

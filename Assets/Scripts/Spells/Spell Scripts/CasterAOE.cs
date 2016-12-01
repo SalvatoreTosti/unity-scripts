@@ -3,26 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 [CreateAssetMenu (menuName = "Spells/Caster Area Of Effect")]
-public class CasterAOE : SingleSpell
+public class CasterAOE : TargetAOE
 {
-
-	public enum TARGET_TYPE
-	{
-		TARGET_ALL,
-		TARGET_RANDOM
-	};
-
-	[HideInInspector] public Vector3 location;
-
-	public SpellEffect[] targetEffects;
-	public SpellEffect[] casterEffects;
-	public SpellEffect[] missTargetEffects;
-	public SpellEffect[] missCasterEffects;
-
-	public TARGET_TYPE targetType;
-	public int maxRandomTargets;
-	public bool includeCaster; //permit caster to be targeted object
-
 	public override IEnumerator[] Initialize (GameObject obj)
 	{
 		caster = obj;
