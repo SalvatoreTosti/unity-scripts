@@ -2,14 +2,25 @@
 using System.Collections;
 using System.Collections.Generic;
 
-[CreateAssetMenu (menuName = "Spells/Target Area Of Effect")]
-public class TargetAOE : SingleSpell {
+[CreateAssetMenu (menuName = "Spells/Area Of Effect")]
+public class AreaOfEffect : SingleSpell
+{
+
+	public enum SPELL_TYPE
+	{
+		CASTER_AOE,
+		TARGET_AOE}
+
+	;
 
 	public enum TARGET_TYPE
 	{
 		TARGET_ALL,
-		TARGET_RANDOM
-	};
+		TARGET_RANDOM}
+
+	;
+
+	public SPELL_TYPE spellType;
 
 	[HideInInspector] public Vector3 location;
 	[HideInInspector] public GameObject target;
@@ -21,7 +32,8 @@ public class TargetAOE : SingleSpell {
 
 	public TARGET_TYPE targetType;
 	public int maxRandomTargets;
-	public bool includeCaster; //permit caster to be targeted object
+	public bool includeCaster;
+	//permit caster to be targeted object
 
 	public override IEnumerator[] Initialize (GameObject obj)
 	{
@@ -33,10 +45,12 @@ public class TargetAOE : SingleSpell {
 	{
 		List<IEnumerator> effects = new List<IEnumerator> ();
 		effects.AddRange (ApplyEffects (caster, caster, casterEffects));
-		if (validSpellTarget()) {
-			location = caster.GetComponent<SpellTarget> ().target.transform.position;		
+		if (spellType == SPELL_TYPE.CASTER_AOE) {
+			location = caster.transform.position;
+		} else {
+			location = caster.GetComponent<SpellTarget> ().target.transform.position;
 		}
-		Collider[] colliders = Utilities.GetCollidersWithTags (location, GetSpellRange(), targetTags);
+		Collider[] colliders = Utilities.GetCollidersWithTags (location, GetSpellRange (), targetTags);
 
 		if (includeCaster == false) {
 			List<Collider> colliderList = new List<Collider> (colliders);
@@ -58,11 +72,11 @@ public class TargetAOE : SingleSpell {
 				effects.AddRange (ApplyEffects (caster, collider.gameObject, targetEffects));
 			}
 		}
-		return effects.ToArray();
+		return effects.ToArray ();
 	}
 
-
-	private bool validSpellTarget(){
+	private bool ValidSpellTarget ()
+	{
 		if (caster == null) {
 			return false;
 		} else if (caster.GetComponent<SpellTarget> () == null) {
