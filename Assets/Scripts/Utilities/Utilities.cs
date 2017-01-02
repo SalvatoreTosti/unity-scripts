@@ -28,7 +28,7 @@ public class Utilities : MonoBehaviour {
 		List<Collider> selectedColliders = new List<Collider> ();
 		Collider[] colliders = Physics.OverlapSphere (location, overlapSize);
 		foreach (Collider collider in colliders) {
-			if (hasTags (collider, tags)) {
+			if (HasTags (collider, tags)) {
 				selectedColliders.Add (collider);
 			}
 		}
@@ -78,7 +78,7 @@ public class Utilities : MonoBehaviour {
 		List<Transform> transforms = new List<Transform> ();
 		foreach (Transform child in parent) {
 			transforms.Add (child);
-			List<Transform> descendents = getDescendentTransforms (child);
+			List<Transform> descendents = GetDescendentTransforms (child);
 			transforms.AddRange (descendents);
 		}
 		return transforms;
@@ -89,14 +89,14 @@ public class Utilities : MonoBehaviour {
 			return new List<Transform> (); //return empty list if passed null
 		}
 		Transform parent = obj.transform;
-		return getDescendentTransforms (parent);
+		return GetDescendentTransforms (parent);
 	}
 
 	public static GameObject[] GetDescendentObjects(Transform parent){
 		if (parent == null) {
 			return new GameObject[0]; //return empty array if passed null
 		}
-		List<Transform> transformList = getDescendentTransforms (parent);
+		List<Transform> transformList = GetDescendentTransforms (parent);
 		List<GameObject> objectList = new List<GameObject> ();
 		foreach (Transform t in transformList) {
 			objectList.Add (t.gameObject);
@@ -109,7 +109,7 @@ public class Utilities : MonoBehaviour {
 			return new GameObject[0]; //return empty array if passed null
 		}
 		Transform parent = obj.transform;
-		return getDescendentObjects (parent);
+		return GetDescendentObjects (parent);
 	}
 
 	public static void Reactivate(GameObject obj, Vector3 position, Vector3 force){
