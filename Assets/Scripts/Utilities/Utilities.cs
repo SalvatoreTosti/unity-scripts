@@ -127,4 +127,24 @@ public class Utilities : MonoBehaviour {
 		obj.SetActive (false);
 	}
 
+	public static Vector3 GetNearestValue(Vector3 currentLocation, float gridSize){
+		float newX = GetNearestValue (currentLocation.x, gridSize);
+		float newY = GetNearestValue (currentLocation.y, gridSize);
+		float newZ = GetNearestValue (currentLocation.z, gridSize);
+		return new Vector3 (newX, newY, newZ);
+	}
+
+	public static float GetNearestValue(float currentValue, float gridValue){
+		float remainder = currentValue % gridValue;
+		float baseGridCount = Mathf.Floor(currentValue / gridValue);
+		float middleGridSize = gridValue / 2.0f;
+		float middleValue = baseGridCount * gridValue + middleGridSize;
+		if (currentValue < middleValue) {
+			return baseGridCount * gridValue;
+		} else {
+			return (baseGridCount + 1) * gridValue;
+		}
+	
+	}
+
 }
