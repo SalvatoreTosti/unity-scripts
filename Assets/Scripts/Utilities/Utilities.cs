@@ -24,6 +24,27 @@ public class Utilities : MonoBehaviour {
 		return false;
 	}
 
+	public static bool Exists(Vector3 location, string[] tags, float marginOfError){
+		Collider[] colliders = Physics.OverlapSphere (location, marginOfError);
+		foreach (Collider collider in colliders) {
+			if (HasTags (collider, tags)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static bool Exists(Vector3 location, GameObject obj, float marginOfError){
+		Collider[] colliders = Physics.OverlapSphere (location, marginOfError);
+		foreach (Collider collider in colliders) {
+			if (collider.gameObject.Equals (obj)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
 	public static Collider[] GetCollidersWithTags(Vector3 location, float overlapSize, string[] tags){
 		List<Collider> selectedColliders = new List<Collider> ();
 		Collider[] colliders = Physics.OverlapSphere (location, overlapSize);
@@ -127,24 +148,45 @@ public class Utilities : MonoBehaviour {
 		obj.SetActive (false);
 	}
 
-	public static Vector3 GetNearestValue(Vector3 currentLocation, float gridSize){
-		float newX = GetNearestValue (currentLocation.x, gridSize);
-		float newY = GetNearestValue (currentLocation.y, gridSize);
-		float newZ = GetNearestValue (currentLocation.z, gridSize);
+	public static Vector3 GetNearestPoint(Vector3 location, float gridSize){
+		float newX = GetNearestValue (location.x, gridSize);
+		float newY = GetNearestValue (location.y, gridSize);
+		float newZ = GetNearestValue (location.z, gridSize);
 		return new Vector3 (newX, newY, newZ);
 	}
 
-	public static float GetNearestValue(float currentValue, float gridValue){
-		float remainder = currentValue % gridValue;
-		float baseGridCount = Mathf.Floor(currentValue / gridValue);
+	public static float GetNearestValue(float value, float gridValue){
+		float remainder = value % gridValue;
+		float baseGridCount = Mathf.Floor(value / gridValue);
 		float middleGridSize = gridValue / 2.0f;
 		float middleValue = baseGridCount * gridValue + middleGridSize;
-		if (currentValue < middleValue) {
+		if (value < middleValue) {
 			return baseGridCount * gridValue;
 		} else {
 			return (baseGridCount + 1) * gridValue;
 		}
 	
+	}
+
+	public static Vector3? GetWorldMousePosition(){
+		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+		RaycastHit hit;
+		if (Physics.Raycast (ray, out hit)) {
+			Vector3 hitPoint = hit.point;
+			return hitPoint;
+		}
+		return null;
+
+	}
+
+	public static Vector3? GetWorldMousePosition(Camera camera){
+		Ray ray = camera.ScreenPointToRay (Input.mousePosition);
+		RaycastHit hit;
+		if (Physics.Raycast (ray, out hit)) {
+			Vector3 hitPoint = hit.point;
+			return hitPoint;
+		}
+		return null;
 	}
 
 }
