@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public class Utilities : MonoBehaviour {
+public class Utilities : MonoBehaviour
+{
 	//A place for general utilities
 
-	public static bool HasTags(Collider collider, string[] tags){
+	public static bool HasTags (Collider collider, string[] tags)
+	{
 		foreach (string tag in tags) {
 			if (collider.tag == tag) {
 				return true;
@@ -15,7 +17,8 @@ public class Utilities : MonoBehaviour {
 		return false;
 	}
 
-	public static bool HasTags(GameObject obj, string[] tags){
+	public static bool HasTags (GameObject obj, string[] tags)
+	{
 		foreach (string tag in tags) {
 			if (obj.tag == tag) {
 				return true;
@@ -24,7 +27,8 @@ public class Utilities : MonoBehaviour {
 		return false;
 	}
 
-	public static bool Exists(Vector3 location, string[] tags, float marginOfError){
+	public static bool Exists (Vector3 location, string[] tags, float marginOfError)
+	{
 		Collider[] colliders = Physics.OverlapSphere (location, marginOfError);
 		foreach (Collider collider in colliders) {
 			if (HasTags (collider, tags)) {
@@ -34,7 +38,8 @@ public class Utilities : MonoBehaviour {
 		return false;
 	}
 
-	public static bool Exists(Vector3 location, GameObject obj, float marginOfError){
+	public static bool Exists (Vector3 location, GameObject obj, float marginOfError)
+	{
 		Collider[] colliders = Physics.OverlapSphere (location, marginOfError);
 		foreach (Collider collider in colliders) {
 			if (collider.gameObject.Equals (obj)) {
@@ -44,8 +49,8 @@ public class Utilities : MonoBehaviour {
 		return false;
 	}
 
-
-	public static Collider[] GetCollidersWithTags(Vector3 location, float overlapSize, string[] tags){
+	public static Collider[] GetCollidersWithTags (Vector3 location, float overlapSize, string[] tags)
+	{
 		List<Collider> selectedColliders = new List<Collider> ();
 		Collider[] colliders = Physics.OverlapSphere (location, overlapSize);
 		foreach (Collider collider in colliders) {
@@ -56,7 +61,8 @@ public class Utilities : MonoBehaviour {
 		return selectedColliders.ToArray ();
 	}
 
-	public static Collider NearestCollider(Transform trans, Collider[] colliders){
+	public static Collider NearestCollider (Transform trans, Collider[] colliders)
+	{
 		if (colliders == null) {
 			Debug.Log ("Null collider array passed");
 			return null;
@@ -78,21 +84,23 @@ public class Utilities : MonoBehaviour {
 		return nearest;
 	}
 
-	public static Collider GetRandomCollider(Collider[] colliders){
-	if (colliders == null) {
-		Debug.Log ("Null collider array passed");
-		return null;
-	}
-	if (colliders.Length == 0) {
-		Debug.Log ("Empty collider array passed");
-		return null;
+	public static Collider GetRandomCollider (Collider[] colliders)
+	{
+		if (colliders == null) {
+			Debug.Log ("Null collider array passed");
+			return null;
+		}
+		if (colliders.Length == 0) {
+			Debug.Log ("Empty collider array passed");
+			return null;
+		}
+
+		int randomLocation = Random.Range (0, colliders.Length - 1);
+		return colliders [randomLocation];
 	}
 
-	int randomLocation = Random.Range (0, colliders.Length - 1);
-	return colliders [randomLocation];
-}
-
-	public static List<Transform> GetDescendentTransforms(Transform parent){
+	public static List<Transform> GetDescendentTransforms (Transform parent)
+	{
 		if (parent == null) {
 			return new List<Transform> (); //return empty list if passed null
 		}
@@ -105,7 +113,8 @@ public class Utilities : MonoBehaviour {
 		return transforms;
 	}
 
-	public static List<Transform> GetDescendentTransforms(GameObject obj){
+	public static List<Transform> GetDescendentTransforms (GameObject obj)
+	{
 		if (obj == null) {
 			return new List<Transform> (); //return empty list if passed null
 		}
@@ -113,7 +122,8 @@ public class Utilities : MonoBehaviour {
 		return GetDescendentTransforms (parent);
 	}
 
-	public static GameObject[] GetDescendentObjects(Transform parent){
+	public static GameObject[] GetDescendentObjects (Transform parent)
+	{
 		if (parent == null) {
 			return new GameObject[0]; //return empty array if passed null
 		}
@@ -122,10 +132,11 @@ public class Utilities : MonoBehaviour {
 		foreach (Transform t in transformList) {
 			objectList.Add (t.gameObject);
 		}
-		return objectList.ToArray();
+		return objectList.ToArray ();
 	}
 
-	public static GameObject[] GetDescendentObjects(GameObject obj){
+	public static GameObject[] GetDescendentObjects (GameObject obj)
+	{
 		if (obj == null) {
 			return new GameObject[0]; //return empty array if passed null
 		}
@@ -133,7 +144,8 @@ public class Utilities : MonoBehaviour {
 		return GetDescendentObjects (parent);
 	}
 
-	public static void Reactivate(GameObject obj, Vector3 position, Vector3 force){
+	public static void Reactivate (GameObject obj, Vector3 position, Vector3 force)
+	{
 		obj.transform.position = position;
 		obj.SetActive (true);
 		Rigidbody rigidBody = obj.GetComponent<Rigidbody> ();
@@ -144,20 +156,23 @@ public class Utilities : MonoBehaviour {
 		}
 	}
 
-	public static void Deactivate(GameObject obj){
+	public static void Deactivate (GameObject obj)
+	{
 		obj.SetActive (false);
 	}
 
-	public static Vector3 GetNearestPoint(Vector3 location, float gridSize){
+	public static Vector3 GetNearestPoint (Vector3 location, float gridSize)
+	{
 		float newX = GetNearestValue (location.x, gridSize);
 		float newY = GetNearestValue (location.y, gridSize);
 		float newZ = GetNearestValue (location.z, gridSize);
 		return new Vector3 (newX, newY, newZ);
 	}
 
-	public static float GetNearestValue(float value, float gridValue){
+	public static float GetNearestValue (float value, float gridValue)
+	{
 		float remainder = value % gridValue;
-		float baseGridCount = Mathf.Floor(value / gridValue);
+		float baseGridCount = Mathf.Floor (value / gridValue);
 		float middleGridSize = gridValue / 2.0f;
 		float middleValue = baseGridCount * gridValue + middleGridSize;
 		if (value < middleValue) {
@@ -165,10 +180,10 @@ public class Utilities : MonoBehaviour {
 		} else {
 			return (baseGridCount + 1) * gridValue;
 		}
-	
 	}
 
-	public static Vector3? GetWorldMousePosition(){
+	public static Vector3? GetWorldMousePosition ()
+	{
 		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 		RaycastHit hit;
 		if (Physics.Raycast (ray, out hit)) {
@@ -176,10 +191,28 @@ public class Utilities : MonoBehaviour {
 			return hitPoint;
 		}
 		return null;
-
 	}
 
-	public static Vector3? GetWorldMousePosition(Camera camera){
+	public static Vector3? GetWorldMousePosition (string layerMaskName)
+	{
+		int layerMask = GetLayerMask (layerMaskName);
+		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+		RaycastHit hit;
+		if (Physics.Raycast (ray, out hit, Mathf.Infinity, layerMask)) {
+			Vector3 hitPoint = hit.point;
+			return hitPoint;
+		}
+		return null;
+	}
+
+	public static int GetLayerMask (string maskName)
+	{
+		int layerNumber = LayerMask.NameToLayer (maskName);
+		return 1 << layerNumber;
+	}
+
+	public static Vector3? GetWorldMousePosition (Camera camera)
+	{
 		Ray ray = camera.ScreenPointToRay (Input.mousePosition);
 		RaycastHit hit;
 		if (Physics.Raycast (ray, out hit)) {
