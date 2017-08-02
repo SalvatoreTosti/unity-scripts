@@ -10,7 +10,6 @@ public class CameraMoveBehavior : MonoBehaviour {
 	public float speed;
 	public float maxDistance;
 
-	// Update is called once per frame
 	void Update () {
 		float step = speed * Time.deltaTime;
 		if (Vector3.Distance (transform.position, target.position) > maxDistance) {

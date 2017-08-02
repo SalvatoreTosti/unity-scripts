@@ -16,7 +16,6 @@ public class CameraLookBehavior : MonoBehaviour {
 		target = defaultTarget;
 	}
 
-	// Update is called once per frame
 	void Update () {
 		if (lookRotation == LookStyle.SMOOTH) {
 			smoothLookAt ();
